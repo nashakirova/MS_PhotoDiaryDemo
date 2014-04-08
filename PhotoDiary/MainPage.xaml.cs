@@ -35,9 +35,7 @@ namespace PhotoDiary
         {
             if (e.TaskResult == TaskResult.OK)
             {
-                var bmp = new BitmapImage();
-                bmp.SetSource(e.ChosenPhoto);
-                PictureStore.AddPicture(new ImageInfo() { Image = bmp, Taken = DateTime.Now });
+                PictureStore.AddPicture(e.ChosenPhoto);
             }
         }
 
