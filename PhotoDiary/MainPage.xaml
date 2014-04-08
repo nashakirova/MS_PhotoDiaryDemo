@@ -49,7 +49,7 @@
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <StackPanel>
                 <Button Click="Button_Click">Добавить фото</Button>
-                <Button>Смотреть дневник</Button>
+                <Button Click="Button_Click_1">Смотреть дневник</Button>
                 <Button>Гравиальбом</Button>
             </StackPanel>
         </Grid>

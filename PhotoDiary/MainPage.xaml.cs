@@ -41,6 +41,11 @@ namespace PhotoDiary
             }
         }
 
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Diary.xaml", UriKind.Relative));
+        }
+
         // Sample code for building a localized ApplicationBar
         //private void BuildLocalizedApplicationBar()
         //{
