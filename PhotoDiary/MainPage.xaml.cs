@@ -26,7 +26,8 @@ namespace PhotoDiary
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var camera = new CameraCaptureTask();
+            var camera = new PhotoChooserTask();
+            // var camera = new CameraCaptureTask();
             camera.Completed += camera_Completed;
             camera.Show();
         }
@@ -42,6 +43,11 @@ namespace PhotoDiary
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/Diary.xaml", UriKind.Relative));
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/GraviViewer.xaml", UriKind.Relative));
         }
 
         // Sample code for building a localized ApplicationBar

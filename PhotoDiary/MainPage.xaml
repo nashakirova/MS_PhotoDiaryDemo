@@ -50,7 +50,7 @@
             <StackPanel>
                 <Button Click="Button_Click">Добавить фото</Button>
                 <Button Click="Button_Click_1">Смотреть дневник</Button>
-                <Button>Гравиальбом</Button>
+                <Button Click="Button_Click_2">Гравиальбом</Button>
             </StackPanel>
         </Grid>
 
