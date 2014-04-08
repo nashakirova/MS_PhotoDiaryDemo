@@ -35,7 +35,7 @@ namespace PhotoDiary
         void dt_Tick(object sender, EventArgs e)
         {
             var rd = acc.GetCurrentReading();
-            if (Math.Abs(count)>1.2)
+            if (Math.Abs(count)>0.3)
             {
                 if (count < 0 && current>0) current--;
                 if (count > 0 && current<list.Count-1) current++;

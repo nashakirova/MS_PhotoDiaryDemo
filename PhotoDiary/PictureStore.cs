@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using System.Windows.Resources;
 
 namespace PhotoDiary
 {
@@ -29,6 +31,17 @@ namespace PhotoDiary
                 img.CopyTo(f);
                 f.Close();
             }
+        }
+
+        public static void AddFromUrl(string url)
+        {
+            var wc = new WebClient();
+            wc.OpenReadCompleted += (s, args) =>
+                {
+                    var resInfo = new StreamResourceInfo(args.Result, null);
+                    AddPicture(resInfo.Stream);
+                };
+            wc.OpenReadAsync(new Uri(url));
         }
 
         public List<ImageInfo> Images 

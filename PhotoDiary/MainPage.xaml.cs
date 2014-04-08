@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using PhotoDiary.Resources;
 using Microsoft.Phone.Tasks;
 using System.Windows.Media.Imaging;
+using System.Xml.Linq;
 
 namespace PhotoDiary
 {
@@ -23,6 +24,7 @@ namespace PhotoDiary
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
         }
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -48,6 +50,22 @@ namespace PhotoDiary
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/GraviViewer.xaml", UriKind.Relative));
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            WebClient wc = new WebClient();
+            wc.DownloadStringCompleted += (s, args) =>
+                {
+                    var xdoc = XDocument.Parse(args.Result);
+                    XNamespace media = "http://search.yahoo.com/mrss";
+                    var res = (from z in xdoc.Descendants("item")
+                               select
+                                (from x in z.Descendants(media + "thumbnail")
+                                 select x.Attribute("url").Value).First()).First();
+                    PictureStore.AddFromUrl(res);
+                };
+            wc.DownloadStringAsync(new Uri("http://fotki.yandex.ru/top/rss2"));
         }
 
         // Sample code for building a localized ApplicationBar
