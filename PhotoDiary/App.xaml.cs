@@ -8,6 +8,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using PhotoDiary.Resources;
 using System.Linq;
+using Microsoft.Phone.Scheduler;
 
 namespace PhotoDiary
 {
@@ -81,6 +82,13 @@ namespace PhotoDiary
                 BackContent = string.Format("You have added {0} new entries", PictureStore.count)
             };
             tile.Update(dt);
+
+            Reminder rem = new Reminder("DiaryAppNotifier");
+            rem.Title = "Фотодневник";
+            rem.Content = "Вы давно не помещали фотографию в журнал";
+            rem.BeginTime = DateTime.Now.AddMinutes(0.5);
+            rem.RecurrenceType = RecurrenceInterval.None;
+            ScheduledActionService.Add(rem);
         }
 
         // Code to execute when the application is closing (eg, user hit Back)
