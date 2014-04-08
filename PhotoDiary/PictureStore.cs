@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Device.Location;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
@@ -21,7 +22,24 @@ namespace PhotoDiary
     public class PictureStore
     {
 
+
+        public PictureStore()
+        {
+            if (locator==null)
+            {
+                locator = new GeoCoordinateWatcher();
+                locator.PositionChanged += (s, args) =>
+                    {
+                        coord = args.Position.Location;
+                    };
+                locator.Start();
+            }
+        }
+
         public static int count = 0;
+
+        public static GeoCoordinateWatcher locator = null;
+        public static GeoCoordinate coord = null;
 
         public static void AddPicture(Stream img)
         {
@@ -32,6 +50,19 @@ namespace PhotoDiary
             {
                 img.CopyTo(f);
                 f.Close();
+            }
+            if (locator!=null && coord !=null)
+            {
+                if (!iso.DirectoryExists("Locations")) iso.CreateDirectory("Locations");
+                using (var f = new IsolatedStorageFileStream(@"Locations\" + fn, FileMode.Create, iso))
+                {
+                    using (var tw = new StreamWriter(f, UTF8Encoding.UTF8))
+                    {
+                        tw.WriteLine(coord.Latitude);
+                        tw.WriteLine(coord.Longitude);
+                    }
+                    f.Close();
+                }
             }
             count++;
         }
@@ -66,6 +97,30 @@ namespace PhotoDiary
                 return l;
             } 
         }
+
+        public static List<GeoCoordinate> Coordinates
+        {
+            get
+            {
+                var l = new List<GeoCoordinate>();
+                var iso = IsolatedStorageFile.GetUserStoreForApplication();
+                if (!iso.DirectoryExists("Locations")) return l;
+                foreach (var fn in iso.GetFileNames(@"Locations\*"))
+                {
+                    var bmp = new BitmapImage();
+                    using (var f = iso.OpenFile(@"Locations\" + fn, FileMode.Open, FileAccess.Read))
+                    {
+                        using (var tr = new StreamReader(f))
+                        {
+                            var loc = new GeoCoordinate(double.Parse(tr.ReadLine()), double.Parse(tr.ReadLine()));
+                            l.Add(loc);
+                        }
+                    }
+                }
+                return l;
+            }
+        }
+
 
     }
 }

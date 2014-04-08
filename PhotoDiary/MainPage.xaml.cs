@@ -11,19 +11,22 @@ using PhotoDiary.Resources;
 using Microsoft.Phone.Tasks;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
+using System.Device.Location;
 
 namespace PhotoDiary
 {
     public partial class MainPage : PhoneApplicationPage
     {
+
         // Constructor
         public MainPage()
         {
             InitializeComponent();
-
+            var ps = new PictureStore();
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
         }
+
 
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -66,6 +69,11 @@ namespace PhotoDiary
                     PictureStore.AddFromUrl(res);
                 };
             wc.DownloadStringAsync(new Uri("http://fotki.yandex.ru/top/rss2"));
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/PictureMap.xaml", UriKind.Relative));
         }
 
         // Sample code for building a localized ApplicationBar

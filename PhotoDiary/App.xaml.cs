@@ -69,6 +69,7 @@ namespace PhotoDiary
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
+            ScheduledActionService.Remove("DiaryAppNotifier");
         }
 
         // Code to execute when the application is deactivated (sent to background)
@@ -88,7 +89,11 @@ namespace PhotoDiary
             rem.Content = "Вы давно не помещали фотографию в журнал";
             rem.BeginTime = DateTime.Now.AddMinutes(0.5);
             rem.RecurrenceType = RecurrenceInterval.None;
-            ScheduledActionService.Add(rem);
+            try
+            {
+                ScheduledActionService.Add(rem);
+            }
+            catch (Exception) {}
         }
 
         // Code to execute when the application is closing (eg, user hit Back)
