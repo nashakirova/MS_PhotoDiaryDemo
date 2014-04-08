@@ -21,6 +21,8 @@ namespace PhotoDiary
     public class PictureStore
     {
 
+        public static int count = 0;
+
         public static void AddPicture(Stream img)
         {
             var iso = IsolatedStorageFile.GetUserStoreForApplication();
@@ -31,6 +33,7 @@ namespace PhotoDiary
                 img.CopyTo(f);
                 f.Close();
             }
+            count++;
         }
 
         public static void AddFromUrl(string url)

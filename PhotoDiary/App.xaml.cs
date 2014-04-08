@@ -7,6 +7,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using PhotoDiary.Resources;
+using System.Linq;
 
 namespace PhotoDiary
 {
@@ -73,6 +74,13 @@ namespace PhotoDiary
         // This code will not execute when the application is closing
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
+            ShellTile tile = ShellTile.ActiveTiles.First();
+            ShellTileData dt = new StandardTileData()
+            {
+                Count = PictureStore.count,
+                BackContent = string.Format("You have added {0} new entries", PictureStore.count)
+            };
+            tile.Update(dt);
         }
 
         // Code to execute when the application is closing (eg, user hit Back)
